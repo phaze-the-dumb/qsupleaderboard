@@ -1,0 +1,22 @@
+{
+  "name": "qsupleaderboard",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@types/animejs": "^3.1.12",
+    "animejs": "^3.2.2",
+    "lenis": "^1.1.6",
+    "solid-js": "^1.8.17"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "vite": "^5.3.1",
+    "vite-plugin-solid": "^2.10.2"
+  }
+}
