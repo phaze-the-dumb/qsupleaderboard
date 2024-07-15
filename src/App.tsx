@@ -193,6 +193,7 @@ let App = () => {
 
         let fade = Math.max(((totalTime - loadedTime) / 100000) - (size / 250), 0);
 
+        // @ts-ignore
         ctx.letterSpacing = '0px';
         ctx.globalAlpha = Math.min(fade, 0.5);
 
@@ -253,6 +254,7 @@ let App = () => {
       ctx.fillStyle = '#fff';
       ctx.font = '100px Ethnocentric';
 
+      // @ts-ignore
       ctx.letterSpacing = totalTime / 10000 + 'px';
 
       ctx.fillText("Loading...", canvas.width / 2, canvas.height / 2);
