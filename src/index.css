@@ -141,11 +141,37 @@ canvas{
     width: 100vw;
   }
 
+  .table-row{
+    display: block;
+    border: none;
+
+    background: #5555;
+    border-radius: 5px;
+    backdrop-filter: blur(10px);
+
+    margin: 10px;
+    padding: 10px;
+
+    box-shadow: #000 0 0 10px;
+  }
+
+  .small-pfp{
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+
   .table-row div{
-    width: calc(100% - 250px);
+    width: 100%;
+    display: inline-block;
   }
 
   .small-column{
-    width: 80px !important;
+    width: 33.3% !important;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  h1{
+    font-size: 20px;
   }
 }
