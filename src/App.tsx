@@ -446,6 +446,49 @@ let App = () => {
     }
   }, 500);
 
+  let ws = new WebSocket('wss://qsup-api.phaz.uk/api/v1/live');
+
+  ws.onopen = () => {
+    console.log('Connected to server.');
+  }
+
+  ws.onmessage = ( msg ) => {
+    let d = msg.data.toString().split('|');
+
+    console.log(d);
+
+    let u = users.findIndex(x => x._id === d[2])
+
+    if(u !== -1){
+      switch(d[1]){
+        case 'DELETE':
+          users[u].messageDeleteCount = d[0];
+          break;
+        case 'CREATE':
+          users[u].messageCreateCount = d[0];
+          break;
+        case 'EDIT':
+          users[u].messageEditCount = d[0];
+          break;
+      }
+    }
+
+    tableContent.innerHTML = '';
+    tableContent.appendChild(<div>
+      <For each={users}>
+        {((user, index) =>
+          <div class="table-row">
+            <div class="small-pfp" style={{ background: 'url(\'https://cdn.discordapp.com/avatars/' + user._id + '/' + user.avatar + '.webp?size=1024\')' }}></div>
+            <div>{ index() + 1 }. { user.username }</div>
+            <div class="small-column">{ user.messageCreateCount }</div>
+            <div class="small-column">{ user.messageDeleteCount }</div>
+            <div class="small-column">{ user.messageEditCount }</div>
+          </div>
+        )}
+      </For>
+    </div> as Node);
+  }
+
   return (
     <>
       <canvas ref={ ( el ) => canvas = el }></canvas>
