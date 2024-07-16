@@ -332,10 +332,10 @@ let App = () => {
     }) ])
       .then(data => {
         let d = data[0];
-        hasLoaded = true;
 
         let finalLoad = () => {
           users = d;
+          hasLoaded = true;
 
           tableContent.innerHTML = '';
           tableContent.appendChild(<div>
