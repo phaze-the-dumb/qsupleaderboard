@@ -35,6 +35,8 @@ let App = () => {
   let lenis: Lenis;
   let isLoadingRecords = true;
   let currentBoardPage = 0;
+  let countdown: HTMLElement;
+  let resetTime: number | null = null;
 
   let waitForMount = ( cb: () => void ) => {
     return new Promise<void>(( res ) => {
@@ -328,6 +330,11 @@ let App = () => {
 
       ctx = canvas.getContext("2d")!;
 
+      waitForRequest('https://qsup-api.phaz.uk/api/v1/reset')
+        .then((data: any) => {
+          resetTime = data.reset;
+        })
+
       requestAnimationFrame(render);
     }) ])
       .then(data => {
@@ -417,6 +424,28 @@ let App = () => {
       });
   });
 
+  setInterval(() => {
+    if(resetTime){
+      let diff = resetTime - Date.now();
+
+      if(diff < 0){
+        resetTime = null;
+        countdown.innerText = "Loading Countdown...";
+
+        waitForRequest('https://qsup-api.phaz.uk/api/v1/reset')
+          .then((data: any) => {
+            resetTime = data.reset;
+          })
+
+        return;
+      }
+
+      let d = new Date(diff);
+
+      countdown.innerText = `Reset: ${d.getDate()} Days, ${d.getHours()} Hours, ${d.getMinutes()} Minutes, ${d.getSeconds()} Seconds`;
+    }
+  }, 500);
+
   return (
     <>
       <canvas ref={ ( el ) => canvas = el }></canvas>
@@ -429,6 +458,7 @@ let App = () => {
         <div ref={( el ) => content = el}>
           <div class="table-spacer"></div>
           <div class="table">
+            <h3 ref={( el ) => countdown = el}>Loading Countdown...</h3>
             <h1>Leaderboard</h1>
             <div class="table-row">
               <div style={{ width: '50px', height: '50px', margin: '-10px' }}></div>
