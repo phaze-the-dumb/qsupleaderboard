@@ -286,10 +286,10 @@ let App = () => {
           tableContent.innerHTML = '';
           tableContent.appendChild(<div>
             <For each={users}>
-              {(user =>
+              {((user, index) =>
                 <div class="table-row">
                   <div class="small-pfp" style={{ background: 'url(\'https://cdn.discordapp.com/avatars/' + user._id + '/' + user.avatar + '.webp?size=1024\')' }}></div>
-                  <div>{ user.username }</div>
+                  <div>{ index() + 1 }. { user.username }</div>
                   <div class="small-column">{ user.messageCreateCount }</div>
                   <div class="small-column">{ user.messageDeleteCount }</div>
                   <div class="small-column">{ user.messageEditCount }</div>
@@ -347,10 +347,10 @@ let App = () => {
           tableContent.innerHTML = '';
           tableContent.appendChild(<div>
             <For each={users}>
-              {(user =>
+              {((user, index) =>
                 <div class="table-row">
                   <div class="small-pfp" style={{ background: 'url(\'https://cdn.discordapp.com/avatars/' + user._id + '/' + user.avatar + '.webp?size=1024\')' }}></div>
-                  <div>{ user.username }</div>
+                  <div>{ index() + 1 }. { user.username }</div>
                   <div class="small-column">{ user.messageCreateCount }</div>
                   <div class="small-column">{ user.messageDeleteCount }</div>
                   <div class="small-column">{ user.messageEditCount }</div>
