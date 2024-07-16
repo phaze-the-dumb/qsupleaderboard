@@ -23,6 +23,10 @@ let getPlaceString = ( num: number ) => {
   }
 }
 
+let limitString = ( input: string ) => {
+
+}
+
 let App = () => {
   let container: HTMLElement;
   let content: HTMLElement;
@@ -243,16 +247,18 @@ let App = () => {
       if(canvas.width > 1600){
         for(let i = -2.5; i < 2.5; i++)
           drawBannerFull(i);
-      } else{
+      } else if(canvas.width > 1000){
         for(let i = -1.5; i < 1.5; i++)
           drawBannerFull(i);
+      } else if(canvas.width > 500){
+        drawBannerFull(-.5);
       }
     }
 
     if(totalTime < 100000){
       ctx.globalAlpha = Math.min(0.5, Math.max(0, (totalTime / -100000) + 1));
       ctx.fillStyle = '#fff';
-      ctx.font = '100px Ethnocentric';
+      ctx.font = '50px Ethnocentric';
 
       // @ts-ignore
       ctx.letterSpacing = totalTime / 10000 + 'px';
@@ -286,9 +292,9 @@ let App = () => {
                 <div class="table-row">
                   <div class="small-pfp" style={{ background: 'url(\'https://cdn.discordapp.com/avatars/' + user._id + '/' + user.avatar + '.webp?size=1024\')' }}></div>
                   <div>{ user.username }</div>
-                  <div>{ user.messageCreateCount }</div>
-                  <div>{ user.messageDeleteCount }</div>
-                  <div>{ user.messageEditCount }</div>
+                  <div class="small-column">{ user.messageCreateCount }</div>
+                  <div class="small-column">{ user.messageDeleteCount }</div>
+                  <div class="small-column">{ user.messageEditCount }</div>
                 </div>
               )}
             </For>
@@ -329,21 +335,10 @@ let App = () => {
       requestAnimationFrame(render);
     }) ])
       .then(data => {
-        setTimeout(() => {
-          let d = data[0];
-          hasLoaded = true;
-  
-          loadedTime = totalTime;
+        let d = data[0];
+        hasLoaded = true;
 
-          for (let i = 0; i < 5; i++) {
-            if(d[i]){
-              let img = new Image();
-              img.src = 'https://cdn.discordapp.com/avatars/' + d[i]._id + '/' + d[i].avatar + '.webp?size=1024';
-
-              pfps.push(img);
-            }
-          }
-
+        let finalLoad = () => {
           users = d;
 
           tableContent.innerHTML = '';
@@ -353,9 +348,9 @@ let App = () => {
                 <div class="table-row">
                   <div class="small-pfp" style={{ background: 'url(\'https://cdn.discordapp.com/avatars/' + user._id + '/' + user.avatar + '.webp?size=1024\')' }}></div>
                   <div>{ user.username }</div>
-                  <div>{ user.messageCreateCount }</div>
-                  <div>{ user.messageDeleteCount }</div>
-                  <div>{ user.messageEditCount }</div>
+                  <div class="small-column">{ user.messageCreateCount }</div>
+                  <div class="small-column">{ user.messageDeleteCount }</div>
+                  <div class="small-column">{ user.messageEditCount }</div>
                 </div>
               )}
             </For>
@@ -371,7 +366,7 @@ let App = () => {
             easing: 'easeInOutQuad',
             duration: 500
           });
-  
+
           anime({
             targets: '.page-corner-bottom-left',
             bottom: '50px',
@@ -385,14 +380,44 @@ let App = () => {
             easing: 'easeInOutQuad',
             duration: 500
           });
-  
+
           anime({
             targets: '.page-corner-bottom-right',
             bottom: '50px',
             easing: 'easeInOutQuad',
             duration: 500
           });
-        }, 500);
+
+          anime({
+            targets: '.table',
+            opacity: '1',
+            easing: 'easeInOutQuad',
+            duration: 500
+          });
+        }
+
+        loadedTime = totalTime;
+
+        let loadingAmount = 0;
+
+        for (let i = 0; i < 5; i++) {
+          if(d[i]){
+            let img = new Image();
+            img.src = 'https://cdn.discordapp.com/avatars/' + d[i]._id + '/' + d[i].avatar + '.webp?size=1024';
+
+            loadingAmount++;
+
+            img.onload = () => {
+              loadingAmount--;
+
+              if(loadingAmount == 0){
+                finalLoad();
+              }
+            }
+
+            pfps.push(img);
+          }
+        }
       });
   });
 
@@ -406,15 +431,15 @@ let App = () => {
         <div class="page-corner-bottom-right"></div>
 
         <div ref={( el ) => content = el}>
-          <div style={{ height: '90vh' }}></div>
+          <div class="table-spacer"></div>
           <div class="table">
             <h1>Leaderboard</h1>
             <div class="table-row">
               <div style={{ width: '50px', height: '50px', margin: '-10px' }}></div>
               <div>Name</div>
-              <div>Sent Messages</div>
-              <div>Deleted Messages</div>
-              <div>Edited Messages</div>
+              <div class="small-column">Sent Messages</div>
+              <div class="small-column">Deleted Messages</div>
+              <div class="small-column">Edited Messages</div>
             </div>
 
             <div ref={( el ) => tableContent = el}></div>
