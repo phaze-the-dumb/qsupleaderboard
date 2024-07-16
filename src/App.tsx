@@ -23,10 +23,6 @@ let getPlaceString = ( num: number ) => {
   }
 }
 
-let limitString = ( input: string ) => {
-
-}
-
 let App = () => {
   let container: HTMLElement;
   let content: HTMLElement;
