@@ -442,7 +442,7 @@ let App = () => {
 
       let d = new Date(diff);
 
-      countdown.innerText = `Reset: ${d.getDate()} Days, ${d.getHours()} Hours, ${d.getMinutes()} Minutes, ${d.getSeconds()} Seconds`;
+      countdown.innerText = `Reset: ${d.getDate() - 1} Days, ${d.getHours() - 1} Hours, ${d.getMinutes()} Minutes, ${d.getSeconds()} Seconds`;
     }
   }, 500);
 
