@@ -513,6 +513,12 @@ let App = () => {
 
       users = users.sort((a, b) => b.messageCreateCount - a.messageCreateCount);
 
+      for (let i = 0; i < 5; i++) {
+        if(pfps[i]){
+          pfps[i].src = 'https://cdn.discordapp.com/avatars/' + users[i]._id + '/' + users[i].avatar + '.webp?size=1024';
+        }
+      }
+
       tableContent.innerHTML = '';
       tableContent.appendChild(<div>
         <For each={users}>
