@@ -64,6 +64,36 @@ canvas{
   height: 50px;
 }
 
+.message-bubble-left{
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background-size: cover !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  text-shadow: #000 0 0 10px;
+}
+
+.message-bubble-right{
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background-size: cover !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  text-shadow: #000 0 0 10px;
+}
+
 .page-corner-top-left{
   position: fixed;
   top: calc(50% - 100px);

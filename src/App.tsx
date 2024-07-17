@@ -446,6 +446,44 @@ let App = () => {
     }
   }, 500);
 
+  let makeMessageBubble = ( user: User ) => {
+    console.log(user);
+
+    let div = <div style={{
+      background: 'url(\'https://cdn.discordapp.com/avatars/' + user._id + '/' + user.avatar + '.webp?size=1024\')'
+    }}>+1</div> as HTMLElement;
+
+    document.body.appendChild(div);
+
+    if(Math.floor(Math.random() * 2) == 0){
+      div.className = 'message-bubble-left'
+      anime({
+        targets: div,
+        translateY: canvas.height / -2 + 'px',
+        translateX: Math.random() * 200 + 'px',
+        opacity: 0,
+        easing: 'easeInOutQuad',
+        duration: 1000,
+        complete: () => {
+          div.remove();
+        }
+      })
+    } else{
+      div.className = 'message-bubble-right'
+      anime({
+        targets: div,
+        translateY: canvas.height / -2 + 'px',
+        translateX: Math.random() * -200 + 'px',
+        opacity: 0,
+        easing: 'easeInOutQuad',
+        duration: 1000,
+        complete: () => {
+          div.remove();
+        }
+      })
+    }
+  }
+
   let ws = new WebSocket('wss://qsup-api.phaz.uk/api/v1/live');
 
   ws.onopen = () => {
@@ -466,27 +504,30 @@ let App = () => {
           break;
         case 'CREATE':
           users[u].messageCreateCount = d[0];
+          makeMessageBubble(users[u]);
           break;
         case 'EDIT':
           users[u].messageEditCount = d[0];
           break;
       }
-    }
 
-    tableContent.innerHTML = '';
-    tableContent.appendChild(<div>
-      <For each={users}>
-        {((user, index) =>
-          <div class="table-row">
-            <div class="small-pfp" style={{ background: 'url(\'https://cdn.discordapp.com/avatars/' + user._id + '/' + user.avatar + '.webp?size=1024\')' }}></div>
-            <div>{ index() + 1 }. { user.username }</div>
-            <div class="small-column">{ user.messageCreateCount }</div>
-            <div class="small-column">{ user.messageDeleteCount }</div>
-            <div class="small-column">{ user.messageEditCount }</div>
-          </div>
-        )}
-      </For>
-    </div> as Node);
+      users = users.sort((a, b) => b.messageCreateCount - a.messageCreateCount);
+
+      tableContent.innerHTML = '';
+      tableContent.appendChild(<div>
+        <For each={users}>
+          {((user, index) =>
+            <div class="table-row">
+              <div class="small-pfp" style={{ background: 'url(\'https://cdn.discordapp.com/avatars/' + user._id + '/' + user.avatar + '.webp?size=1024\')' }}></div>
+              <div>{ index() + 1 }. { user.username }</div>
+              <div class="small-column">{ user.messageCreateCount }</div>
+              <div class="small-column">{ user.messageDeleteCount }</div>
+              <div class="small-column">{ user.messageEditCount }</div>
+            </div>
+          )}
+        </For>
+      </div> as Node);
+    }
   }
 
   return (
