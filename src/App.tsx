@@ -37,6 +37,7 @@ let App = () => {
   let currentBoardPage = 0;
   let countdown: HTMLElement;
   let resetTime: number | null = null;
+  let disconnected = true;
 
   let waitForMount = ( cb: () => void ) => {
     return new Promise<void>(( res ) => {
@@ -172,6 +173,9 @@ let App = () => {
     totalTime += time;
 
     lenis.raf(time);
+
+    if(disconnected)
+      connect();
 
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -484,55 +488,63 @@ let App = () => {
     }
   }
 
-  let ws = new WebSocket('wss://qsup-api.phaz.uk/api/v1/live');
+  let connect = () => {
+    disconnected = false;
+    let ws = new WebSocket('wss://qsup-api.phaz.uk/api/v1/live');
 
-  ws.onopen = () => {
-    console.log('Connected to server.');
-  }
+    ws.onopen = () => {
+      console.log('Connected to server.');
+    }
 
-  ws.onmessage = ( msg ) => {
-    let d = msg.data.toString().split('|');
+    ws.onclose = () => {
+      console.log('Connection closed. Trying to reconnect...');
+      disconnected = true;
+    }
 
-    console.log(d);
+    ws.onmessage = ( msg ) => {
+      let d = msg.data.toString().split('|');
 
-    let u = users.findIndex(x => x._id === d[2])
+      console.log(d);
 
-    if(u !== -1){
-      switch(d[1]){
-        case 'DELETE':
-          users[u].messageDeleteCount = d[0];
-          break;
-        case 'CREATE':
-          users[u].messageCreateCount = d[0];
-          makeMessageBubble(users[u]);
-          break;
-        case 'EDIT':
-          users[u].messageEditCount = d[0];
-          break;
-      }
+      let u = users.findIndex(x => x._id === d[2])
 
-      users = users.sort((a, b) => b.messageCreateCount - a.messageCreateCount);
-
-      for (let i = 0; i < 5; i++) {
-        if(pfps[i]){
-          pfps[i].src = 'https://cdn.discordapp.com/avatars/' + users[i]._id + '/' + users[i].avatar + '.webp?size=1024';
+      if(u !== -1){
+        switch(d[1]){
+          case 'DELETE':
+            users[u].messageDeleteCount = d[0];
+            break;
+          case 'CREATE':
+            users[u].messageCreateCount = d[0];
+            makeMessageBubble(users[u]);
+            break;
+          case 'EDIT':
+            users[u].messageEditCount = d[0];
+            break;
         }
-      }
 
-      tableContent.innerHTML = '';
-      tableContent.appendChild(<div>
-        <For each={users}>
-          {((user, index) =>
-            <div class="table-row">
-              <div class="small-pfp" style={{ background: 'url(\'https://cdn.discordapp.com/avatars/' + user._id + '/' + user.avatar + '.webp?size=1024\')' }}></div>
-              <div>{ index() + 1 }. { user.username }</div>
-              <div class="small-column">{ user.messageCreateCount }</div>
-              <div class="small-column">{ user.messageDeleteCount }</div>
-              <div class="small-column">{ user.messageEditCount }</div>
-            </div>
-          )}
-        </For>
-      </div> as Node);
+        users = users.sort((a, b) => b.messageCreateCount - a.messageCreateCount);
+
+        for (let i = 0; i < 5; i++) {
+          if(pfps[i]){
+            pfps[i].src = 'https://cdn.discordapp.com/avatars/' + users[i]._id + '/' + users[i].avatar + '.webp?size=1024';
+          }
+        }
+
+        tableContent.innerHTML = '';
+        tableContent.appendChild(<div>
+          <For each={users}>
+            {((user, index) =>
+              <div class="table-row">
+                <div class="small-pfp" style={{ background: 'url(\'https://cdn.discordapp.com/avatars/' + user._id + '/' + user.avatar + '.webp?size=1024\')' }}></div>
+                <div>{ index() + 1 }. { user.username }</div>
+                <div class="small-column">{ user.messageCreateCount }</div>
+                <div class="small-column">{ user.messageDeleteCount }</div>
+                <div class="small-column">{ user.messageEditCount }</div>
+              </div>
+            )}
+          </For>
+        </div> as Node);
+      }
     }
   }
 
