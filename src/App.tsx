@@ -146,6 +146,9 @@ let App = () => {
     ctx.lineTo(x + width, y);
     ctx.closePath();
 
+    ctx.fillStyle = '#000';
+    ctx.fill();
+
     ctx.save();
     ctx.clip();
     ctx.drawImage(img, x - (height / 2) + ( width / 2 ), y, height, height);
@@ -199,28 +202,28 @@ let App = () => {
 
         let fade = Math.max(((totalTime - loadedTime) / 100000) - (size / 250), 0);
 
-        // @ts-ignore
         ctx.letterSpacing = '0px';
         ctx.globalAlpha = Math.min(fade, 0.5);
 
-        drawBanner((canvas.width / 2 + i * 300) + 20, 150 + size / 2 - yOffest, 260, canvas.height - 300 - size, 120);
+        ctx.fillStyle = '#000';
+        drawBanner((canvas.width / 2 + i * 300) + 20, 150 + size / 2 - (yOffest * (size / 100 + 1)), 260, canvas.height - 300 - size, 120);
 
         ctx.globalAlpha = Math.min(fade, 0.5);
 
         ctx.fillStyle = '#fff';
         ctx.font = '50px Ethnocentric';
-        ctx.fillText((place + 1) + getPlaceString(place + 1), (canvas.width / 2 + i * 300) + 150, 100 - yOffest);
+        ctx.fillText((place + 1) + getPlaceString(place + 1), (canvas.width / 2 + i * 300) + 150, 100 - (yOffest * (size / 100 + 1)));
 
         if(!pfps[place]){
           ctx.font = '10px Ethnocentric';
-          ctx.fillText("Loading...", canvas.width / 2 + i * 300 + 150, canvas.height / 2 - yOffest);
+          ctx.fillText("Loading...", canvas.width / 2 + i * 300 + 150, canvas.height / 2 - (yOffest * (size / 100 + 1)));
         } else{
           ctx.globalAlpha = Math.min(Math.max(fade, 0), 1);
-          drawBannerImage(pfps[place], (canvas.width / 2 + i * 300) + 20, 150 + size / 2 - yOffest, 260, canvas.height - 300 - size, 120);
+          drawBannerImage(pfps[place], (canvas.width / 2 + i * 300) + 20, 150 + size / 2 - (yOffest * (size / 100 + 1)), 260, canvas.height - 300 - size, 120);
         }
 
         ctx.fillStyle = '#0009';
-        ctx.fillRect((canvas.width / 2 + i * 300) + 20, canvas.height / 2 + 75 - yOffest, 260, 75);
+        ctx.fillRect((canvas.width / 2 + i * 300) + 20, canvas.height / 2 + 75 - (yOffest * (size / 100 + 1)), 260, 75);
 
         ctx.fillStyle = '#fff';
         ctx.font = '25px Ethnocentric';
@@ -228,10 +231,10 @@ let App = () => {
         let nameWidth = ctx.measureText(users[place].username);
 
         if(nameWidth.width < 250){
-          ctx.fillText(users[place].username, canvas.width / 2 + i * 300 + 150, canvas.height / 2 + 100 - yOffest);
+          ctx.fillText(users[place].username, canvas.width / 2 + i * 300 + 150, canvas.height / 2 + 100 - (yOffest * (size / 100 + 1)));
 
           ctx.font = '10px Ethnocentric';
-          ctx.fillText("Messages sent: " + users[place].messageCreateCount, canvas.width / 2 + i * 300 + 150, canvas.height / 2 + 130 - yOffest);
+          ctx.fillText("Messages sent: " + users[place].messageCreateCount, canvas.width / 2 + i * 300 + 150, canvas.height / 2 + 130 - (yOffest * (size / 100 + 1)));
         } else{
           let fontSize = 25;
 
@@ -239,10 +242,10 @@ let App = () => {
             ctx.font = `${fontSize -= 1}px Ethnocentric`;
           } while (ctx.measureText(users[place].username).width > 250);
 
-          ctx.fillText(users[place].username, canvas.width / 2 + i * 300 + 150, canvas.height / 2 + 100 - yOffest);
+          ctx.fillText(users[place].username, canvas.width / 2 + i * 300 + 150, canvas.height / 2 + 100 - (yOffest * (size / 100 + 1)));
 
           ctx.font = '10px Ethnocentric';
-          ctx.fillText("Messages sent: " + users[place].messageCreateCount, canvas.width / 2 + i * 300 + 150, canvas.height / 2 + 130 - yOffest);
+          ctx.fillText("Messages sent: " + users[place].messageCreateCount, canvas.width / 2 + i * 300 + 150, canvas.height / 2 + 130 - (yOffest * (size / 100 + 1)));
         }
       }
 
