@@ -202,6 +202,7 @@ let App = () => {
 
         let fade = Math.max(((totalTime - loadedTime) / 100000) - (size / 250), 0);
 
+        // @ts-ignore
         ctx.letterSpacing = '0px';
         ctx.globalAlpha = Math.min(fade, 0.5);
 
