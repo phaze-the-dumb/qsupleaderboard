@@ -147,7 +147,7 @@ canvas{
 }
 
 .small-column{
-  width: 25% !important;
+  width: calc(25% - 10px) !important;
 }
 
 @media screen and (max-width: 500px) {
