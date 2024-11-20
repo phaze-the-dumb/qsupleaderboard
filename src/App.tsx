@@ -527,6 +527,9 @@ let App = () => {
           case 'EDIT':
             users[u].messageEditCount = d[0];
             break;
+          case 'TYPED':
+            users[u].typedCharacterCount = d[0];
+            break;
         }
 
         users = users.sort((a, b) => b.messageCreateCount - a.messageCreateCount);
