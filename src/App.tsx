@@ -9,6 +9,7 @@ class User{
   messageCreateCount!: number;
   messageDeleteCount!: number;
   messageEditCount!: number;
+  typedCharacterCount!: number;
 }
 
 let getPlaceString = ( num: number ) => {
@@ -359,6 +360,7 @@ let App = () => {
                 <div class="table-row">
                   <div class="small-pfp" style={{ background: 'url(\'https://cdn.discordapp.com/avatars/' + user._id + '/' + user.avatar + '.webp?size=1024\')' }}></div>
                   <div>{ index() + 1 }. { user.username }</div>
+                  <div class="small-column">{ user.typedCharacterCount }</div>
                   <div class="small-column">{ user.messageCreateCount }</div>
                   <div class="small-column">{ user.messageDeleteCount }</div>
                   <div class="small-column">{ user.messageEditCount }</div>
@@ -541,6 +543,7 @@ let App = () => {
               <div class="table-row">
                 <div class="small-pfp" style={{ background: 'url(\'https://cdn.discordapp.com/avatars/' + user._id + '/' + user.avatar + '.webp?size=1024\')' }}></div>
                 <div>{ index() + 1 }. { user.username }</div>
+                <div class="small-column">{ user.typedCharacterCount }</div>
                 <div class="small-column">{ user.messageCreateCount }</div>
                 <div class="small-column">{ user.messageDeleteCount }</div>
                 <div class="small-column">{ user.messageEditCount }</div>
@@ -569,6 +572,7 @@ let App = () => {
             <div class="table-row">
               <div style={{ width: '50px', height: '50px', margin: '-10px' }}></div>
               <div>Name</div>
+              <div class="small-column">Typed Characters</div>
               <div class="small-column">Sent Messages</div>
               <div class="small-column">Deleted Messages</div>
               <div class="small-column">Edited Messages</div>
