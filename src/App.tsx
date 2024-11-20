@@ -236,7 +236,7 @@ let App = () => {
           ctx.fillText(users[place].username, canvas.width / 2 + i * 300 + 150, canvas.height / 2 + 100 - (yOffest * (size / 100 + 1)));
 
           ctx.font = '10px Ethnocentric';
-          ctx.fillText("Messages sent: " + users[place].typedCharacterCount, canvas.width / 2 + i * 300 + 150, canvas.height / 2 + 130 - (yOffest * (size / 100 + 1)));
+          ctx.fillText("Typed Characters: " + users[place].typedCharacterCount, canvas.width / 2 + i * 300 + 150, canvas.height / 2 + 130 - (yOffest * (size / 100 + 1)));
         } else{
           let fontSize = 25;
 
@@ -247,7 +247,7 @@ let App = () => {
           ctx.fillText(users[place].username, canvas.width / 2 + i * 300 + 150, canvas.height / 2 + 100 - (yOffest * (size / 100 + 1)));
 
           ctx.font = '10px Ethnocentric';
-          ctx.fillText("Messages sent: " + users[place].typedCharacterCount, canvas.width / 2 + i * 300 + 150, canvas.height / 2 + 130 - (yOffest * (size / 100 + 1)));
+          ctx.fillText("Typed Characters: " + users[place].typedCharacterCount, canvas.width / 2 + i * 300 + 150, canvas.height / 2 + 130 - (yOffest * (size / 100 + 1)));
         }
       }
 
