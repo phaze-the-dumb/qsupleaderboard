@@ -146,6 +146,10 @@ canvas{
   height: 90vh;
 }
 
+.small-column{
+  width: 25% !important;
+}
+
 @media screen and (max-width: 500px) {
   .table-spacer{
     height: 0px;
@@ -196,7 +200,7 @@ canvas{
   }
 
   .small-column{
-    width: 33.3% !important;
+    width: 25% !important;
   }
 }
 
