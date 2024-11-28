@@ -150,6 +150,82 @@ canvas{
   width: calc(25% - 10px) !important;
 }
 
+.user-popup{
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 350px;
+  height: 200px;
+  background: url('https://cdn.discordapp.com/avatars/595628769138442250/7204c1a35c67e2e723da3dda0f086401.webp?size=1024');
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+.user-popup-background{
+  background: url('https://cdn.discordapp.com/avatars/595628769138442250/7204c1a35c67e2e723da3dda0f086401.webp?size=1024');
+  background-size: cover !important;
+  background-position: center !important;
+  filter: blur(4px);
+  width: 350px;
+  height: 200px;
+}
+
+.user-popup-account{
+  display: flex;
+  width: 350px;
+  height: 100px;
+  position: absolute;
+  z-index: 1;
+  top: 25px;
+}
+
+.user-popup-account-image{
+  background: url('https://cdn.discordapp.com/avatars/595628769138442250/7204c1a35c67e2e723da3dda0f086401.webp?size=128');
+  background-size: cover !important;
+  background-position: center !important;
+  border-radius: 10px;
+  width: 80px;
+  height: 80px;
+  margin: 10px;
+  box-shadow: #0000009d 0 0 10px;
+}
+
+.user-popup-account-name{
+  font-size: 30px;
+  font-weight: bold;
+  transform: translateY(50px);
+}
+
+.user-popup-info{
+  text-align: left;
+  background: #5555;
+  width: 350px;
+  height: 100px;
+  position: absolute;
+  top: 100px;
+  padding: 10px;
+  padding-top: 20px;
+  box-shadow: #0000009d 0 0 10px;
+}
+
+.user-popup-info-words{
+  height: 50px;
+  display: flex;
+}
+
+.user-popup-info-word{
+  width: 25%;
+  height: 100%;
+  padding: 10px 0;
+  text-align: center;
+}
+
+.user-popup-info-word-uses{
+  color: #d1d1d1;
+  font-size: 14px;
+}
+
 @media screen and (max-width: 500px) {
   .table-spacer{
     height: 0px;

@@ -1,16 +1,8 @@
-import { For, onMount } from "solid-js";
+import { createSignal, For, onMount } from "solid-js";
 import anime from 'animejs';
 import Lenis from 'lenis';
-
-class User{
-  _id!: string;
-  avatar!: string;
-  username!: string;
-  messageCreateCount!: number;
-  messageDeleteCount!: number;
-  messageEditCount!: number;
-  typedCharacterCount!: number;
-}
+import UserPopup from "./UserPopup";
+import { User } from "./User";
 
 let getPlaceString = ( num: number ) => {
   if(num.toString().endsWith('1') && num != 11){
@@ -39,6 +31,8 @@ let App = () => {
   let countdown: HTMLElement;
   let resetTime: number | null = null;
   let disconnected = true;
+
+  let [ selectedUser, setSelectedUser ] = createSignal<User | null>(null);
 
   let waitForMount = ( cb: () => void ) => {
     return new Promise<void>(( res ) => {
@@ -292,6 +286,8 @@ let App = () => {
 
           users.push(...data);
 
+          setSelectedUser(users[0]);
+
           tableContent.innerHTML = '';
           tableContent.appendChild(<div>
             <For each={users}>
@@ -353,6 +349,8 @@ let App = () => {
         let finalLoad = () => {
           users = d;
           hasLoaded = true;
+
+          setSelectedUser(users[0]);
 
           tableContent.innerHTML = '';
           tableContent.appendChild(<div>
@@ -453,7 +451,7 @@ let App = () => {
 
       let d = new Date(diff);
 
-      countdown.innerText = `Reset: ${d.getDate() - 1} Days, ${d.getHours() - 1} Hours, ${d.getMinutes()} Minutes, ${d.getSeconds()} Seconds`;
+      countdown.innerText = `Reset: ${d.getDate() - 1} Days, ${d.getHours()} Hours, ${d.getMinutes()} Minutes, ${d.getSeconds()} Seconds`;
     }
   }, 500);
 
@@ -528,11 +526,11 @@ let App = () => {
             users[u].messageEditCount = d[0];
             break;
           case 'TYPED':
-            users[u].typedCharacterCount = d[0];
+            users[u].typedCharacterCount = parseInt(d[0]);
             break;
         }
 
-        users = users.sort((a, b) => b.messageCreateCount - a.messageCreateCount);
+        users = users.sort((a, b) => b.typedCharacterCount - a.typedCharacterCount);
 
         for (let i = 0; i < 5; i++) {
           if(pfps[i]){
@@ -540,12 +538,14 @@ let App = () => {
           }
         }
 
+        setSelectedUser(users[0]);
+
         tableContent.innerHTML = '';
         tableContent.appendChild(<div>
           <For each={users}>
             {((user, index) =>
               <div class="table-row">
-                <div class="small-pfp" style={{ background: 'url(\'https://cdn.discordapp.com/avatars/' + user._id + '/' + user.avatar + '.webp?size=1024\')' }}></div>
+                <div class="small-pfp" style={{ background: 'url(\'https://cdn.discordapp.com/avatars/' + user._id + '/' + user.avatar + '.webp?size=64\')' }}></div>
                 <div>{ index() + 1 }. { user.username }</div>
                 <div class="small-column">{ user.typedCharacterCount }</div>
                 <div class="small-column">{ user.messageCreateCount }</div>
@@ -561,6 +561,7 @@ let App = () => {
 
   return (
     <>
+      {/* <UserPopup user={selectedUser} /> */}
       <canvas ref={ ( el ) => canvas = el }></canvas>
       <div class="container" ref={( el ) => container = el}>
         <div class="page-corner-top-left"></div>
