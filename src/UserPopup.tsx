@@ -2,15 +2,15 @@ import { Accessor, createEffect } from "solid-js";
 import { User } from "./User";
 
 let UserPopup = ( props: { user: Accessor<User | null> } ) => {
-  let sortedWords = [];
+  // let sortedWords = [];
 
   createEffect(() => {
     let words = props.user()?.words;
     if(!words)return;
 
-    sortedWords = words.sort(( a, b ) => b.uses - a.uses);
+    // sortedWords = words.sort(( a, b ) => b.uses - a.uses);
 
-    
+
   })
 
   return (
