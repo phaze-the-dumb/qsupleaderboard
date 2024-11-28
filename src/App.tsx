@@ -1,7 +1,7 @@
-import { createSignal, For, onMount } from "solid-js";
+import { For, onMount } from "solid-js";
 import anime from 'animejs';
 import Lenis from 'lenis';
-import UserPopup from "./UserPopup";
+// import UserPopup from "./UserPopup";
 import { User } from "./User";
 
 let getPlaceString = ( num: number ) => {
@@ -32,7 +32,7 @@ let App = () => {
   let resetTime: number | null = null;
   let disconnected = true;
 
-  let [ selectedUser, setSelectedUser ] = createSignal<User | null>(null);
+  // let [ selectedUser, setSelectedUser ] = createSignal<User | null>(null);
 
   let waitForMount = ( cb: () => void ) => {
     return new Promise<void>(( res ) => {
@@ -286,7 +286,7 @@ let App = () => {
 
           users.push(...data);
 
-          setSelectedUser(users[0]);
+          // setSelectedUser(users[0]);
 
           tableContent.innerHTML = '';
           tableContent.appendChild(<div>
@@ -350,7 +350,7 @@ let App = () => {
           users = d;
           hasLoaded = true;
 
-          setSelectedUser(users[0]);
+          // setSelectedUser(users[0]);
 
           tableContent.innerHTML = '';
           tableContent.appendChild(<div>
@@ -538,7 +538,7 @@ let App = () => {
           }
         }
 
-        setSelectedUser(users[0]);
+        // setSelectedUser(users[0]);
 
         tableContent.innerHTML = '';
         tableContent.appendChild(<div>
