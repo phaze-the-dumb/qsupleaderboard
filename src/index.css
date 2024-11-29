@@ -147,7 +147,7 @@ canvas{
 }
 
 .small-column{
-  width: calc(25% - 10px) !important;
+  width: calc(25% - 50px) !important;
 }
 
 .user-popup{
