@@ -157,9 +157,9 @@ canvas{
   z-index: 100;
   width: 350px;
   height: 200px;
-  background: url('https://cdn.discordapp.com/avatars/595628769138442250/7204c1a35c67e2e723da3dda0f086401.webp?size=1024');
-  background-size: cover !important;
-  background-position: center !important;
+  overflow-y: auto;
+  scrollbar-width: none;
+  overflow-x: hidden;
 }
 
 .user-popup-background{
@@ -167,8 +167,11 @@ canvas{
   background-size: cover !important;
   background-position: center !important;
   filter: blur(4px);
-  width: 350px;
-  height: 200px;
+  width: 345px;
+  height: 195px;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 .user-popup-account{
@@ -178,6 +181,21 @@ canvas{
   position: absolute;
   z-index: 1;
   top: 25px;
+}
+
+.user-popup-close{
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  z-index: 10000;
+  font-size: 25px;
+  cursor: pointer;
+  user-select: none;
+  text-shadow: 
+    #000 1px 1px 1px,
+    #000 -1px 1px 1px,
+    #000 -1px -1px 1px,
+    #000 1px -1px 1px;
 }
 
 .user-popup-account-image{
@@ -199,9 +217,9 @@ canvas{
 
 .user-popup-info{
   text-align: left;
-  background: #5555;
+  background: #202020c5;
   width: 350px;
-  height: 100px;
+  height: fit-content;
   position: absolute;
   top: 100px;
   padding: 10px;
@@ -210,8 +228,7 @@ canvas{
 }
 
 .user-popup-info-words{
-  height: 50px;
-  display: flex;
+  height: fit-content;
 }
 
 .user-popup-info-word{
@@ -219,6 +236,8 @@ canvas{
   height: 100%;
   padding: 10px 0;
   text-align: center;
+  display: inline-block;
+  width: 25%;
 }
 
 .user-popup-info-word-uses{
@@ -277,6 +296,24 @@ canvas{
 
   .small-column{
     width: 25% !important;
+  }
+
+  .user-popup{
+    top: 50% !important;
+    left: 0 !important;
+    width: 100%;
+    height: 50%;
+  }
+
+  .user-popup-background{
+    top: 50% !important;
+    left: 0 !important;
+    width: 100%;
+    height: 50%;
+  }
+  
+  .user-popup-info{
+    width: 100%;
   }
 }
 

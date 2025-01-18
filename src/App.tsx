@@ -1,7 +1,7 @@
-import { For, onMount } from "solid-js";
+import { createSignal, For, onMount } from "solid-js";
 import anime from 'animejs';
 import Lenis from 'lenis';
-// import UserPopup from "./UserPopup";
+import UserPopup from "./UserPopup";
 import { User } from "./User";
 
 let getPlaceString = ( num: number ) => {
@@ -32,7 +32,8 @@ let App = () => {
   let resetTime: number | null = null;
   let disconnected = true;
 
-  // let [ selectedUser, setSelectedUser ] = createSignal<User | null>(null);
+  let [ selectedUser, setSelectedUser ] = createSignal<User | null>(null);
+  let [ selectedUserPos, setSelectedUserPos ] = createSignal<{ x: number, y: number }>({ x: 0, y: 0 });
 
   let waitForMount = ( cb: () => void ) => {
     return new Promise<void>(( res ) => {
@@ -286,13 +287,11 @@ let App = () => {
 
           users.push(...data);
 
-          // setSelectedUser(users[0]);
-
           tableContent.innerHTML = '';
           tableContent.appendChild(<div>
             <For each={users}>
               {((user, index) =>
-                <div class="table-row">
+                <div class="table-row" onClick={( e ) => { setSelectedUser(user); setSelectedUserPos({ x: e.clientX, y: e.clientY }) }}>
                   <div class="small-pfp" style={{ background: 'url(\'https://cdn.discordapp.com/avatars/' + user._id + '/' + user.avatar + '.webp?size=1024\')' }}></div>
                   <div>{ index() + 1 }. { user.username }</div>
                   <div class="small-column">{ user.typedCharacterCount }</div>
@@ -350,13 +349,11 @@ let App = () => {
           users = d;
           hasLoaded = true;
 
-          // setSelectedUser(users[0]);
-
           tableContent.innerHTML = '';
           tableContent.appendChild(<div>
             <For each={users}>
               {((user, index) =>
-                <div class="table-row">
+                <div class="table-row"  onClick={( e ) => { setSelectedUser(user); setSelectedUserPos({ x: e.clientX, y: e.clientY }) }}>
                   <div class="small-pfp" style={{ background: 'url(\'https://cdn.discordapp.com/avatars/' + user._id + '/' + user.avatar + '.webp?size=1024\')' }}></div>
                   <div>{ index() + 1 }. { user.username }</div>
                   <div class="small-column">{ user.typedCharacterCount }</div>
@@ -538,13 +535,11 @@ let App = () => {
           }
         }
 
-        // setSelectedUser(users[0]);
-
         tableContent.innerHTML = '';
         tableContent.appendChild(<div>
           <For each={users}>
             {((user, index) =>
-              <div class="table-row">
+              <div class="table-row" onClick={( e ) => { setSelectedUser(user); setSelectedUserPos({ x: e.clientX, y: e.clientY }) }}>
                 <div class="small-pfp" style={{ background: 'url(\'https://cdn.discordapp.com/avatars/' + user._id + '/' + user.avatar + '.webp?size=64\')' }}></div>
                 <div>{ index() + 1 }. { user.username }</div>
                 <div class="small-column">{ user.typedCharacterCount }</div>
@@ -561,7 +556,7 @@ let App = () => {
 
   return (
     <>
-      {/* <UserPopup user={selectedUser} /> */}
+      <UserPopup user={selectedUser} setUser={setSelectedUser} pos={selectedUserPos} />
       <canvas ref={ ( el ) => canvas = el }></canvas>
       <div class="container" ref={( el ) => container = el}>
         <div class="page-corner-top-left"></div>
